@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
     tick();
   }
 
-  var menu = document.querySelector('#highlight_menu');
-  var twitterLink = document.getElementById('twitter');
-  var twitterAPI = 'https://twitter.com/intent/tweet?text=';
+  var menu = document.querySelector('#highlight_menu'),
+      twitterLink = document.getElementById('twitter'),
+      twitterAPI = 'https://twitter.com/intent/tweet?text=';
 
   window.addEventListener('mouseup', function (evt) {
     var s = document.getSelection(),
@@ -50,11 +50,15 @@ document.addEventListener('DOMContentLoaded', function() {
         menu.style.display = 'block';
         menu.style.opacity = 0;
 
-        var tweet = twitterAPI + s.toString();
-        if (tweet >= 140) {
-          // tweet = replaceIndex(tweet, 10, '...');
+        var tweet = s.toString();
+        console.log('tweet_length', tweet.length);
+        if (tweet.length >= 90) {
+          var longTweet = replaceIndex(tweet, 90, '...');
+          var position = longTweet.indexOf('...');
+          tweet = longTweet.substring(0, position + 3);
+
         }
-        twitterLink.href = '"' + tweet + '"—@richmondgozarin' + ' ' + window.location.href;
+        twitterLink.href = twitterAPI + '"'+ tweet.trim() + '"' + " —@richmondgozarin" + ' ' + window.location.href;
         fadeIn(menu);
 
         setTimeout(function() {
@@ -82,7 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function replaceIndex(string, at, repl) {
    return string.replace(/\S/g, function(match, i) {
-        if( i === at ) return repl;
-        
+        if( i === at ) {
+          return repl;
+        }
+        return match;
     });
 }
