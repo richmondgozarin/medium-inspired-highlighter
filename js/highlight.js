@@ -1,4 +1,4 @@
-// Vanilla
+
 
 document.addEventListener('DOMContentLoaded', function() {
 
